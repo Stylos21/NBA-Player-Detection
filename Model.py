@@ -21,35 +21,19 @@ for data in DATA:
     img = cv2.resize(image, (490 // 4, 360 // 4))
     xs.append(np.array(img))
     for anchor in data['players']:
-        # print(len(anchor))
-        # print(anchor)
-        # if image.shape == (360, 490, 3):
         boxes.append(1)
         print(anchor, image.shape)
         boxes.append(anchor[0] / (image.shape[0] / (490 // 4)) / (490 // 4))
         boxes.append(anchor[1] / (image.shape[1] / (360 // 4)) / (360 // 4))
         boxes.append(anchor[2] / (image.shape[0] / (490 // 4)) / (490 // 4))
         boxes.append(anchor[3] / (image.shape[1] / (360 // 4)) / (360 // 4))
-        # else:
-        #     boxes.append(1)
-        #     boxes.append(anchor[0] / (image.shape[0] / 490) // (490 // 4))
-        #     boxes.append(anchor[1] / (image.shape[1] / 360) // (360 // 4))
-        #     boxes.append(anchor[2] / (image.shape[0] / 490) // (490 // 4))
-        #     boxes.append(anchor[3] / (image.shape[1] / 360) // (360 // 4))
-        # for value in anchor:
-            # print(value)
-        # boxes.append(value)
+   
     if len(boxes) < ANCHOR_BOXES * DIMS_PER_BOX:
         for _ in range(ANCHOR_BOXES * DIMS_PER_BOX - len(boxes)):
             boxes.append(0)
-    # if len(boxes) != 50:
-    # if  np.array(boxes).shape  !=  (60,):
-        # print(np.array(boxes).shape)
     
     ys.append(np.array(boxes))
 
-print(ys)
-print(len(xs), len(ys))
 model = Sequential()
 model.add(Conv2D(64, (3,  3), input_shape=(90, 122, 3), strides=(2, 2), activation="sigmoid"))
 model.add(MaxPool2D((2, 2)))
@@ -66,5 +50,4 @@ model.load_weights('model.h5')
 image = cv2.imread('data/zYgYQAWrDmw/clip_30/01.png') / 255.
 image = cv2.resize(image, (490 // 4, 360 // 4))
 image = np.reshape(image, (-1, 90, 122, 3))
-print(xs[0].shape, image.shape)
 print(model.predict(image))
