@@ -46,8 +46,4 @@ model.add(Dense(ANCHOR_BOXES * DIMS_PER_BOX, activation="sigmoid"))
 model.compile(loss="categorical_crossentropy", optimizer=Adam(lr=1e-5), metrics=['accuracy'])
 model.fit(np.array(xs), np.array(ys), epochs=100, batch_size=8)
 model.save("model.h5")
-model.load_weights('model.h5')
-image = cv2.imread('data/zYgYQAWrDmw/clip_30/01.png') / 255.
-image = cv2.resize(image, (490 // 4, 360 // 4))
-image = np.reshape(image, (-1, 90, 122, 3))
-print(model.predict(image))
+
